@@ -1,23 +1,18 @@
 from pydantic import BaseModel
-from typing import List, Dict, Optional
-
-class Poll(BaseModel):
-    id: str
-    text: str
-    variants: Dict[str, Variant]
-    author: str
-    is_open: bool = True
+from typing import Dict
 
 class Variant(BaseModel):
     title: str
     votes: int = 0
 
-class CreatePoll(BaseModel):
+class Poll(BaseModel):
+    id: str
     text: str
-    variants: List[str]
+    variants: Dict[str, int]
     author: str
+    is_open: bool = True
 
 class Vote(BaseModel):
-    variant_id: str
-    author: str
+    poll_id: str
+    variant: str
     user: str

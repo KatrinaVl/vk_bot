@@ -3,7 +3,7 @@ version: '3'
 services:
     bot:
         build: 
-            context: bot  
+            context: bot
         environment:
             BOT_SERVER_URL: "http://bot:8090"
         ports:
@@ -12,9 +12,15 @@ services:
             - tarantool
 
     tarantool:
-        image: tarantool/tarantool:2.8
+        image: tarantool/tarantool:2.11.0
         ports:
           - "3301:3301"
         volumes:
           - ./tarantool:/var/lib/tarantool
-        command: tarantool tarantool /var/lib/tarantool/init.lua
+        command: tarantool /var/lib/tarantool/init.lua
+    
+    tests:
+        build:
+            context: tests
+        environment:
+            BOT_SERVER_URL: "http://bot:8090"

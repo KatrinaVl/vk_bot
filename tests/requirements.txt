@@ -1,4 +1,4 @@
-tarantool
 requests==2.28.1
 flask==3.1.0
-pydantic
+pytest
+pytest-cov
