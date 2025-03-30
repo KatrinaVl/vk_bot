@@ -137,6 +137,16 @@ class Tests:
         assert r_poll.status_code == 201
         poll_id = json.loads(r_poll.content)['ID']
 
+        r = make_requests(
+            'GET',
+            bot_addr,
+            '/get_result',
+            data={
+                "poll_id": poll_id})
+        variants = json.loads(r.content)['variants']
+        assert variants['hse'] == 0
+        assert variants['mgu'] == 0
+
         r_vote = make_requests(
             'POST',
             bot_addr,
@@ -158,7 +168,8 @@ class Tests:
         assert r.status_code == 200
 
         variants = json.loads(r.content)['variants']
-        LOGGER.info(f':>>> RESULTS {variants}')
+        assert variants['hse'] == 1
+        assert variants['mgu'] == 0
 
     
     @staticmethod
@@ -239,7 +250,6 @@ class Tests:
 
         opened = json.loads(r_result.content)['is_open']
         assert opened == False
-        LOGGER.info(f':>>> RESULTS {opened}')
 
 
     @staticmethod
@@ -308,7 +318,6 @@ class Tests:
 
         opened = json.loads(r_result.content)['is_open']
         assert opened == True
-        LOGGER.info(f':>>> RESULTS {opened}')
 
 
     @staticmethod
